@@ -21,46 +21,42 @@ public class Users {
 
     HashMap<Integer, Account> memberMap = new HashMap();
     int i = 1;
+    //TODO Servers to check should be taken from the config file
+    /***
+     * Gets all the users in a specified server
+     * @param api
+     * @param sID   ID of the server
+     */
     public void getUsers(DiscordAPI api, String sID) {
         // TODO Implement database storage for usernicks
-
 
         Server s = api.getServerById(sID);
         Collection<User> memberCollection = api.getServerById(sID).getMembers();
         System.out.println(memberCollection.size() + "\n\n\n");
         for (User u : memberCollection) {
-            if (u.getNickname(s) == null) {
                 Account account = new Account(u.getId(), u.getName(), u.getNickname(s));
                 memberMap.put(i, account);
                 System.out.printf("%s:\t%s | %s%n", account.uID, account.uName,  account.uNick);
-            } else {
-                Account account = new Account(u.getId(), u.getName(), null);
-                memberMap.put(i, account);
-                System.out.printf("%s:\t%s%n | %s%n", account.uID, account.uName,  account.uNick);
-            }
             i++;
         }
-        ;
         printList(api);
     }
 
+    /***
+     * Listener to check for username changes
+     * @param api
+     */
     public void listen(DiscordAPI api) {
         api.registerListener(new UserChangeNicknameListener() {
             @Override
             public void onUserChangeNickname(DiscordAPI discordAPI, Server server, User user, String s) {
                 try {
-                    if (user.getNickname(server) != null) {
+                    // If user doesn't have a nick, field will be null
                         Account account = new Account(user.getId(), user.getName(), user.getNickname(server));
                         memberMap.put(i, account);
                         System.out.printf("%s:\t%s%n", user.getId(), user.getNickname(server));
-                    } else {
-                        Account account = new Account(user.getId(), user.getName(), null);
-                        memberMap.put(i, account);
-                        System.out.printf("%s:\t%s%n", user.getId(), user.getName());
-                        System.out.println(account.uID + " : "  + account.uName + " | " +  account.uNick);
-                    }
                     i++;
-                    System.out.printf("%s has changed their name to %s%n on server %s%n", oldNick(user, s, user.getId()), user.getName(), server.getName());
+                    System.out.printf("%s has changed their name to %s on server %s%n", oldNick(user, s, user.getId()), user.getName(), server.getName());
                     printList(api);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -70,6 +66,13 @@ public class Users {
         });
     }
 
+    /***
+     * Get the nickname of the user prior to changing
+     * @param u         User who changed their name
+     * @param name      User's previous name
+     * @param uID       User's unique ID number
+     * @return          Previous nickname
+     */
     private String oldNick(User u, String name, String uID) {
         if (name == null) {
             return u.getName();
@@ -77,6 +80,10 @@ public class Users {
         return name;
     }
 
+    /***
+     * Print out all the nicknames collected
+     * @param api
+     */
     public void printList(DiscordAPI api) {
         String output = "userNicks.txt";
         try {
