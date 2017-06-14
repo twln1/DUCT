@@ -1,0 +1,23 @@
+group 'com.twln'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+
+sourceCompatibility = 1.8
+mainClassName = "com.twln.DUCT"
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url  "http://repo.bastian-oppermann.de"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "de.btobastian.javacord:javacord:2.0.14"
+}
