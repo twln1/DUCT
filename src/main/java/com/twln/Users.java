@@ -21,7 +21,6 @@ public class Users {
 
     HashMap<Integer, Account> memberMap = new HashMap();
     int i = 1;
-    //TODO Servers to check should be taken from the config file
     /***
      * Gets all the users in a specified server
      * @param api
@@ -29,7 +28,6 @@ public class Users {
      */
     public void getUsers(DiscordAPI api, String sID) {
         // TODO Implement database storage for usernicks
-
         Server s = api.getServerById(sID);
         Collection<User> memberCollection = api.getServerById(sID).getMembers();
         System.out.println(memberCollection.size() + "\n\n\n");
