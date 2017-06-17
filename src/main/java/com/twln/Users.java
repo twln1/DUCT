@@ -30,7 +30,7 @@ public class Users {
         // TODO Implement database storage for usernicks
         Server s = api.getServerById(sID);
         Collection<User> memberCollection = api.getServerById(sID).getMembers();
-        System.out.println(memberCollection.size() + "\n\n\n");
+       // System.out.println(memberCollection.size() + "\n\n\n");
         for (User u : memberCollection) {
                 Account account = new Account(u.getId(), u.getName(), u.getNickname(s));
                 memberMap.put(i, account);
@@ -50,9 +50,9 @@ public class Users {
             public void onUserChangeNickname(DiscordAPI discordAPI, Server server, User user, String s) {
                 try {
                     // If user doesn't have a nick, field will be null
-                        Account account = new Account(user.getId(), user.getName(), user.getNickname(server));
-                        memberMap.put(i, account);
-                        System.out.printf("%s:\t%s%n", user.getId(), user.getNickname(server));
+                    Account account = new Account(user.getId(), user.getName(), user.getNickname(server));
+                    memberMap.put(i, account);
+                    System.out.printf("%s:\t%s%n", user.getId(), user.getNickname(server));
                     i++;
                     System.out.printf("%s has changed their name to %s on server %s%n", oldNick(user, s, user.getId()), user.getName(), server.getName());
                     printList(api);
@@ -72,10 +72,7 @@ public class Users {
      * @return          Previous nickname
      */
     private String oldNick(User u, String name, String uID) {
-        if (name == null) {
-            return u.getName();
-        }
-        return name;
+        return (name == null) ? u.getName() : null;
     }
 
     /***
@@ -89,15 +86,10 @@ public class Users {
             LocalDateTime now = LocalDateTime.now();
             BufferedWriter bw = new BufferedWriter(new FileWriter(output));
             for (Map.Entry<Integer, Account> user : memberMap.entrySet()) {
-                String out = user.getKey() + " : " + user.getValue().toString() + " " + dtf.format(now);
-                bw.write(out + "\n");
+                bw.write(user.getKey() + " : " + user.getValue().toString() + " " + dtf.format(now) + "\n");
             }
             bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        } catch (IOException e) {e.printStackTrace();}
     }
 
 }
