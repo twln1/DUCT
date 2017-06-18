@@ -13,11 +13,10 @@ public class Config {
     private String password;
     private String userID;
     private ArrayList<AbstractMap.SimpleEntry<String, String>> servers =
-            new ArrayList<AbstractMap.SimpleEntry<String, String>>(){{this.add(new AbstractMap.SimpleEntry<String, String>("a", "b"));}};
+            new ArrayList<AbstractMap.SimpleEntry<String, String>>(){{this.add(new AbstractMap.SimpleEntry<String, String>("81384788765712384", "Discord API"));}};
     private transient static File fileLocation = new File("config.json");
 
     private Config(){
-
     }
 
     public static Config loadConfig(){

@@ -17,8 +17,9 @@ import java.util.*;
  */
 public class Users {
 
-    HashMap<Integer, Account> memberMap = new HashMap();
+    private HashMap<Integer, Account> memberMap = new HashMap();
     int i = 1;
+
     /***
      * Gets all the users in a specified server
      * @param api
@@ -63,7 +64,6 @@ public class Users {
             }
         });
     }
-
     /***
      * Get the nickname of the user prior to changing
      * @param u         User who changed their name
@@ -79,7 +79,7 @@ public class Users {
      * Print out all the nicknames collected
      * @param api
      */
-    public void printList(DiscordAPI api) {
+    private void printList(DiscordAPI api) {
         String output = "userNicks.txt";
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
