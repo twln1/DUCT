@@ -1,3 +1,5 @@
 USAGE:
 
-Currently you need to enter your username and password into fields in DUCT class. A config file will be added in eventually to handle server selection and login credentials
+Server info is stored in key value pairs where the KEY is the server ID and the Value is the name of the server. 
+
+DUCT works with a whitelist, any servers you want to listen to must be listed in the config file.
