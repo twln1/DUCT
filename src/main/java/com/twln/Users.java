@@ -10,9 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Theodore Newton on 6/10/2017.
@@ -44,18 +42,20 @@ public class Users {
      * Listener to check for username changes
      * @param api
      */
-    public void listen(DiscordAPI api) {
+    public void listen(DiscordAPI api, ArrayList<String> serverList) {
         api.registerListener(new UserChangeNicknameListener() {
             @Override
-            public void onUserChangeNickname(DiscordAPI discordAPI, Server server, User user, String s) {
+            public void onUserChangeNickname(DiscordAPI discordAPI, Server server, User user, String oldNick) {
                 try {
-                    // If user doesn't have a nick, field will be null
-                    Account account = new Account(user.getId(), user.getName(), user.getNickname(server));
-                    memberMap.put(i, account);
-                    System.out.printf("%s:\t%s%n", user.getId(), user.getNickname(server));
-                    i++;
-                    System.out.printf("%s has changed their name to %s on server %s%n", oldNick(user, s, user.getId()), user.getName(), server.getName());
-                    printList(api);
+                    if(serverList.contains(server.getId()) ) {
+                        // If user doesn't have a nick, field will be null
+                        Account account = new Account(user.getId(), user.getName(), user.getNickname(server));
+                        memberMap.put(i, account);
+                        System.out.printf("%s:\t%s%n", user.getId(), user.getNickname(server));
+                        i++;
+                        System.out.printf("%s has changed their name to %s on server %s%n", oldNick(user, oldNick, user.getId()), user.getNickname(server), server.getName());
+                        printList(api);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -72,7 +72,7 @@ public class Users {
      * @return          Previous nickname
      */
     private String oldNick(User u, String name, String uID) {
-        return (name == null) ? u.getName() : null;
+        return (name == null) ? u.getName() : name;
     }
 
     /***

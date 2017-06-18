@@ -7,6 +7,7 @@ import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 
 public class DUCT {
@@ -17,12 +18,14 @@ public class DUCT {
         api.connect(new FutureCallback<DiscordAPI>() {
             @Override
             public void onSuccess(DiscordAPI result) {
+                ArrayList<String> whitelist = new ArrayList<>();
                 for (AbstractMap.SimpleEntry serverInfo: config.getServers()) {
                     String serverID = serverInfo.getKey().toString();
+                    whitelist.add(serverID);
                     users.getUsers(api, serverID);
                     System.out.printf("MEMBER COUNT: %d%n", api.getServerById(serverID).getMemberCount());
                 }
-                users.listen(api);
+                users.listen(api, whitelist);
             }
             @Override
             public void onFailure(Throwable t) {
