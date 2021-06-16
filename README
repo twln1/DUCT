@@ -1,3 +1,4 @@
+# THIS PROJECT IS UNMAINTAINED AND LIKELY DEPRICATED
 USAGE:
 
 Server info is stored in key value pairs where the KEY is the server ID and the Value is the name of the server. 
